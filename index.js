@@ -29,11 +29,13 @@ var CreateFilePlugin = (function () {
       write.sync(fullPath, content);
     }
   }
-
+// 提供一个apply方法
   CreateFilePlugin.prototype.apply = function (compiler) {
     const createFile = () => _createFile(this.options.path, this.options.fileName, this.options.content);
 
     if (!!compiler.hooks) {
+      //在生命周期的指定时机做指定的事情
+      //生命周期系统基于tapable
       compiler.hooks.done.tap('CreateFileWebpack', createFile());
     } else {
       compiler.plugin('done', createFile());
@@ -42,5 +44,5 @@ var CreateFilePlugin = (function () {
 
   return CreateFilePlugin;
 })();
-
+//暴露一个对象或者构造函数
 module.exports = CreateFilePlugin;
